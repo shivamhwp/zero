@@ -18,7 +18,7 @@ import {
 export const createTable = pgTableCreator((name) => `zero_${name}`);
 
 export const users = createTable("users", {
-  id: serial("id").primaryKey(),
+  id: serial("id").primaryKey().unique(),
   fullName: varchar("name", { length: 256 }),
   phone: varchar("phone", { length: 256 }),
   email: varchar("email", { length: 256 }),

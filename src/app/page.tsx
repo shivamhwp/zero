@@ -1,18 +1,30 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import { users } from "../server/db/schema";
+import { SignedIn } from "@clerk/nextjs";
+import TopNav from "./components/topnav";
+// import AudioPlayer from "./components/audio-player";
 
-const connectionString = process.env.DATABASE_URL!;
-
-export default async function HomePage() {
-  const client = postgres(connectionString);
-  const db = drizzle(client);
-  const allUsers = await db.select().from(users);
+export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      {allUsers.map((user) => (
-        <div key={user.id}>{user.fullName}</div>
-      ))}
-    </main>
+    <SignedIn>
+      <div className="flex h-full w-full flex-col gap-8">
+        <TopNav />
+        <div className="flex h-auto w-full flex-col items-center ">
+          <h1 className="text-3xl font-bold">
+            Andrew Huberman&apos;s 10mins NSDR Protocol{" "}
+            <a
+              href="https://www.youtube.com/watch?v=KHIbgSN2qAU"
+              className="font-normal text-blue-500 hover:underline"
+            >
+              (original)
+            </a>
+          </h1>
+          <audio controls>
+            <source
+              src="https://utfs.io/f/489eec94-cc61-400f-95ea-5c30c6756de2-dwrva6.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
+        </div>
+      </div>
+    </SignedIn>
   );
 }
